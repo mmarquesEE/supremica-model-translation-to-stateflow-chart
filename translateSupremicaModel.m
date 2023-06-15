@@ -1,9 +1,9 @@
-function translateSupremicaModel(xmlfilename,varname)
+function translateSupremicaModel(xmlfilename,varname,inferData,verbose)
 %%
 model = readstruct(xmlfilename);
 automaton = model.Automaton;
 
-sfnew model
+sfnew chart
 
 rt = sfroot;
 ch = find(rt,"-isa","Stateflow.Chart");
@@ -26,7 +26,8 @@ for k = 1:numel(automaton)
 
     %% Add states
     for i = 1:numel(state)
-        
+        if verbose, "s" + i, end
+
         var = split(string(state(i).nameAttribute),".");
         LabelString = ""; cont = 0;
         for m = 1:numel(var)
@@ -55,11 +56,31 @@ for k = 1:numel(automaton)
     
     %% Add Transitions
     for i = 1:numel(transition)
+        if verbose, "s" + i, end
+
         t(k,i) = Stateflow.Transition(ch);
         t(k,i).Source       = s(k,transition(i).sourceAttribute + 1);
         t(k,i).Destination  = s(k,transition(i).destAttribute + 1);
         t(k,i).SourceOClock = 6; t(k,i).DestinationOClock = 6;
-        t(k,i).LabelString = event(transition(i).eventAttribute + 1).labelAttribute;
+        t(k,i).LabelString = replace(event(transition(i).eventAttribute + 1).labelAttribute,"."," ");
+    end
+    
+    if ~inferData
+        %% Add input events
+        for i = 1:numel(event)
+            e(k,i) = Stateflow.Event(ch);
+            e(k,i).Name = erase(event(i).labelAttribute,".{"+wildcardPattern+"}");
+            e(k,i).Scope = "Input";
+            e(k,i).Trigger = "Rising";
+        end
+    
+        %% Add output variables
+        for i = 1:numel(varname{k})
+            v(k,i) = Stateflow.Data(ch);
+            v(k,i).Name = varname{k}{i};
+            v(k,i).Scope = "Output";
+            v(k,i).DataType = "double";
+        end
     end
 end
 

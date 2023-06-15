@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:B="http://waters.sourceforge.net/xsd/base" Name="robot_module">
+<ConstantAliasList>
+<ConstantAlias Scope="REQUIRED_PARAMETER" Name="GS">
+<ConstantAliasExpression><IntConstant Value="3"/>
+</ConstantAliasExpression>
+</ConstantAlias>
+<ConstantAlias Scope="REQUIRED_PARAMETER" Name="X0">
+<ConstantAliasExpression><IntConstant Value="1"/>
+</ConstantAliasExpression>
+</ConstantAlias>
+<ConstantAlias Scope="REQUIRED_PARAMETER" Name="Y0">
+<ConstantAliasExpression><IntConstant Value="1"/>
+</ConstantAliasExpression>
+</ConstantAlias>
+<ConstantAlias Scope="REQUIRED_PARAMETER" Name="Xu">
+<ConstantAliasExpression><IntConstant Value="2"/>
+</ConstantAliasExpression>
+</ConstantAlias>
+<ConstantAlias Scope="REQUIRED_PARAMETER" Name="Yu">
+<ConstantAliasExpression><IntConstant Value="2"/>
+</ConstantAliasExpression>
+</ConstantAlias>
+<ConstantAlias Scope="REQUIRED_PARAMETER" Name="u_xy">
+<ConstantAliasExpression><IntConstant Value="0"/>
+</ConstantAliasExpression>
+</ConstantAlias>
+<ConstantAlias Scope="REQUIRED_PARAMETER" Name="u_dir">
+<ConstantAliasExpression><IntConstant Value="-1"/>
+</ConstantAliasExpression>
+</ConstantAlias>
+</ConstantAliasList>
+<EventDeclList>
+<EventDecl Kind="CONTROLLABLE" Name="d"/>
+<EventDecl Kind="CONTROLLABLE" Name="l"/>
+<EventDecl Kind="CONTROLLABLE" Name="r"/>
+<EventDecl Kind="CONTROLLABLE" Name="u"/>
+<EventDecl Kind="UNCONTROLLABLE" Name="ureq"/>
+</EventDeclList>
+<ComponentList>
+<VariableComponent Name="x">
+<VariableRange><BinaryExpression Operator="..">
+<IntConstant Value="1"/>
+<SimpleIdentifier Name="GS"/>
+</BinaryExpression>
+</VariableRange>
+<VariableInitial><BinaryExpression Operator="==">
+<SimpleIdentifier Name="x"/>
+<SimpleIdentifier Name="X0"/>
+</BinaryExpression>
+</VariableInitial>
+</VariableComponent>
+<VariableComponent Name="y">
+<VariableRange><BinaryExpression Operator="..">
+<IntConstant Value="1"/>
+<SimpleIdentifier Name="GS"/>
+</BinaryExpression>
+</VariableRange>
+<VariableInitial><BinaryExpression Operator="==">
+<SimpleIdentifier Name="y"/>
+<SimpleIdentifier Name="Y0"/>
+</BinaryExpression>
+</VariableInitial>
+</VariableComponent>
+<SimpleComponent Kind="PLANT" Name="P:R">
+<Graph>
+<NodeList>
+<SimpleNode Initial="true" Name="S0">
+<PointGeometry>
+<Point X="120" Y="120"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+</NodeList>
+<EdgeList>
+<Edge Source="S0" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="u"/>
+<LabelGeometry Anchor="NW">
+<Point X="4" Y="-11"/>
+</LabelGeometry>
+</LabelBlock>
+<SplineGeometry>
+<Point X="175" Y="134"/>
+</SplineGeometry>
+<GuardActionBlock>
+<Actions>
+<BinaryExpression Operator="+=" Text="y += 1">
+<SimpleIdentifier Name="y"/>
+<IntConstant Value="1"/>
+</BinaryExpression>
+</Actions>
+<LabelGeometry Anchor="NW">
+<Point X="8" Y="2"/>
+</LabelGeometry>
+</GuardActionBlock>
+</Edge>
+<Edge Source="S0" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="r"/>
+</LabelBlock>
+<SplineGeometry>
+<Point X="135" Y="175"/>
+</SplineGeometry>
+<GuardActionBlock>
+<Actions>
+<BinaryExpression Operator="+=" Text="x += 1">
+<SimpleIdentifier Name="x"/>
+<IntConstant Value="1"/>
+</BinaryExpression>
+</Actions>
+<LabelGeometry Anchor="NW">
+<Point X="2" Y="25"/>
+</LabelGeometry>
+</GuardActionBlock>
+</Edge>
+<Edge Source="S0" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="d"/>
+</LabelBlock>
+<SplineGeometry>
+<Point X="80" Y="161"/>
+</SplineGeometry>
+<GuardActionBlock>
+<Actions>
+<BinaryExpression Operator="-=" Text="y -= 1">
+<SimpleIdentifier Name="y"/>
+<IntConstant Value="1"/>
+</BinaryExpression>
+</Actions>
+<LabelGeometry Anchor="NW">
+<Point X="1" Y="22"/>
+</LabelGeometry>
+</GuardActionBlock>
+</Edge>
+<Edge Source="S0" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="l"/>
+<LabelGeometry Anchor="NW">
+<Point X="-49" Y="-21"/>
+</LabelGeometry>
+</LabelBlock>
+<SplineGeometry>
+<Point X="65" Y="106"/>
+</SplineGeometry>
+<GuardActionBlock>
+<Actions>
+<BinaryExpression Operator="-=" Text="x -= 1">
+<SimpleIdentifier Name="x"/>
+<IntConstant Value="1"/>
+</BinaryExpression>
+</Actions>
+<LabelGeometry Anchor="NW">
+<Point X="-49" Y="-8"/>
+</LabelGeometry>
+</GuardActionBlock>
+</Edge>
+<Edge Source="S0" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="ureq"/>
+<LabelGeometry Anchor="NW">
+<Point X="-18" Y="-23"/>
+</LabelGeometry>
+</LabelBlock>
+<SplineGeometry>
+<Point X="104" Y="65"/>
+</SplineGeometry>
+<GuardActionBlock>
+<Guards>
+<BinaryExpression Operator="&amp;" Text="x==Xu &amp; y==Yu &amp; u_xy==0">
+<BinaryExpression Operator="&amp;">
+<BinaryExpression Operator="==">
+<SimpleIdentifier Name="x"/>
+<SimpleIdentifier Name="Xu"/>
+</BinaryExpression>
+<BinaryExpression Operator="==">
+<SimpleIdentifier Name="y"/>
+<SimpleIdentifier Name="Yu"/>
+</BinaryExpression>
+</BinaryExpression>
+<BinaryExpression Operator="==">
+<SimpleIdentifier Name="u_xy"/>
+<IntConstant Value="0"/>
+</BinaryExpression>
+</BinaryExpression>
+</Guards>
+<Actions>
+<BinaryExpression Operator="+=" Text="x += u_dir">
+<SimpleIdentifier Name="x"/>
+<SimpleIdentifier Name="u_dir"/>
+</BinaryExpression>
+</Actions>
+<LabelGeometry Anchor="NW">
+<Point X="-88" Y="-38"/>
+</LabelGeometry>
+</GuardActionBlock>
+</Edge>
+<Edge Source="S0" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="ureq"/>
+<LabelGeometry Anchor="NW">
+<Point X="10" Y="-29"/>
+</LabelGeometry>
+</LabelBlock>
+<SplineGeometry>
+<Point X="159" Y="79"/>
+</SplineGeometry>
+<GuardActionBlock>
+<Guards>
+<BinaryExpression Operator="&amp;" Text="x==Xu &amp; y==Yu &amp; u_xy==1">
+<BinaryExpression Operator="&amp;">
+<BinaryExpression Operator="==">
+<SimpleIdentifier Name="x"/>
+<SimpleIdentifier Name="Xu"/>
+</BinaryExpression>
+<BinaryExpression Operator="==">
+<SimpleIdentifier Name="y"/>
+<SimpleIdentifier Name="Yu"/>
+</BinaryExpression>
+</BinaryExpression>
+<BinaryExpression Operator="==">
+<SimpleIdentifier Name="u_xy"/>
+<IntConstant Value="1"/>
+</BinaryExpression>
+</BinaryExpression>
+</Guards>
+<Actions>
+<BinaryExpression Operator="+=" Text="y += u_dir">
+<SimpleIdentifier Name="y"/>
+<SimpleIdentifier Name="u_dir"/>
+</BinaryExpression>
+</Actions>
+<LabelGeometry Anchor="NW">
+<Point X="13" Y="-15"/>
+</LabelGeometry>
+</GuardActionBlock>
+</Edge>
+</EdgeList>
+</Graph>
+</SimpleComponent>
+</ComponentList>
+</Module>

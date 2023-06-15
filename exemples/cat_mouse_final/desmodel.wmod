@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:B="http://waters.sourceforge.net/xsd/base" Name="desmodel">
+<ConstantAliasList>
+<ConstantAlias Name="grid_size">
+<ConstantAliasExpression><IntConstant Value="3"/>
+</ConstantAliasExpression>
+</ConstantAlias>
+</ConstantAliasList>
+<EventDeclList>
+<EventDecl Kind="PROPOSITION" Name=":forbidden"/>
+<EventDecl Kind="UNCONTROLLABLE" Name="tau"/>
+<EventDecl Kind="UNCONTROLLABLE" Name="req">
+<RangeList>
+<BinaryExpression Operator="..">
+<IntConstant Value="1"/>
+<IntConstant Value="2"/>
+</BinaryExpression>
+</RangeList>
+</EventDecl>
+</EventDeclList>
+<ComponentList>
+<Instance ModuleName="robot_module">
+<IndexedIdentifier Name="R">
+<IntConstant Value="1"/>
+</IndexedIdentifier>
+<ParameterBinding Name="GS">
+<SimpleIdentifier Name="grid_size"/>
+</ParameterBinding>
+<ParameterBinding Name="X0">
+<IntConstant Value="1"/>
+</ParameterBinding>
+<ParameterBinding Name="Y0">
+<IntConstant Value="1"/>
+</ParameterBinding>
+<ParameterBinding Name="Xu">
+<IntConstant Value="2"/>
+</ParameterBinding>
+<ParameterBinding Name="Yu">
+<IntConstant Value="2"/>
+</ParameterBinding>
+<ParameterBinding Name="u_xy">
+<IntConstant Value="0"/>
+</ParameterBinding>
+<ParameterBinding Name="u_dir">
+<IntConstant Value="1"/>
+</ParameterBinding>
+</Instance>
+<Instance ModuleName="robot_module">
+<IndexedIdentifier Name="R">
+<IntConstant Value="2"/>
+</IndexedIdentifier>
+<ParameterBinding Name="GS">
+<SimpleIdentifier Name="grid_size"/>
+</ParameterBinding>
+<ParameterBinding Name="X0">
+<IntConstant Value="3"/>
+</ParameterBinding>
+<ParameterBinding Name="Y0">
+<IntConstant Value="1"/>
+</ParameterBinding>
+<ParameterBinding Name="Xu">
+<IntConstant Value="1"/>
+</ParameterBinding>
+<ParameterBinding Name="Yu">
+<IntConstant Value="3"/>
+</ParameterBinding>
+<ParameterBinding Name="u_xy">
+<IntConstant Value="1"/>
+</ParameterBinding>
+<ParameterBinding Name="u_dir">
+<IntConstant Value="-1"/>
+</ParameterBinding>
+</Instance>
+<SimpleComponent Kind="SPEC" Name="S:Collision">
+<Graph>
+<NodeList>
+<SimpleNode Initial="true" Name="S0">
+<PointGeometry>
+<Point X="368" Y="208"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+<SimpleNode Name="S1">
+<EventList>
+<SimpleIdentifier Name=":forbidden"/>
+</EventList>
+<PointGeometry>
+<Point X="608" Y="208"/>
+</PointGeometry>
+<LabelGeometry Anchor="NW">
+<Point X="0" Y="10"/>
+</LabelGeometry>
+</SimpleNode>
+</NodeList>
+<EdgeList>
+<Edge Source="S0" Target="S1">
+<LabelBlock>
+<SimpleIdentifier Name="tau"/>
+<LabelGeometry Anchor="NW">
+<Point X="-86" Y="-56"/>
+</LabelGeometry>
+</LabelBlock>
+<GuardActionBlock>
+<Guards>
+<BinaryExpression Operator="&amp;" Text="R[1].x == R[2].x &amp; R[1].y == R[2].y">
+<BinaryExpression Operator="==">
+<QualifiedIdentifier>
+<IndexedIdentifier Name="R">
+<IntConstant Value="1"/>
+</IndexedIdentifier>
+<SimpleIdentifier Name="x"/>
+</QualifiedIdentifier>
+<QualifiedIdentifier>
+<IndexedIdentifier Name="R">
+<IntConstant Value="2"/>
+</IndexedIdentifier>
+<SimpleIdentifier Name="x"/>
+</QualifiedIdentifier>
+</BinaryExpression>
+<BinaryExpression Operator="==">
+<QualifiedIdentifier>
+<IndexedIdentifier Name="R">
+<IntConstant Value="1"/>
+</IndexedIdentifier>
+<SimpleIdentifier Name="y"/>
+</QualifiedIdentifier>
+<QualifiedIdentifier>
+<IndexedIdentifier Name="R">
+<IntConstant Value="2"/>
+</IndexedIdentifier>
+<SimpleIdentifier Name="y"/>
+</QualifiedIdentifier>
+</BinaryExpression>
+</BinaryExpression>
+</Guards>
+<LabelGeometry Anchor="NW">
+<Point X="-87" Y="-41"/>
+</LabelGeometry>
+</GuardActionBlock>
+</Edge>
+<Edge Source="S0" Target="S0">
+<LabelBlock>
+<SimpleIdentifier Name="tau"/>
+<LabelGeometry Anchor="NW">
+<Point X="-88" Y="-55"/>
+</LabelGeometry>
+</LabelBlock>
+<SplineGeometry>
+<Point X="322" Y="164"/>
+</SplineGeometry>
+<GuardActionBlock>
+<Guards>
+<BinaryExpression Operator="|" Text="R[1].x != R[2].x | R[1].y != R[2].y">
+<BinaryExpression Operator="!=">
+<QualifiedIdentifier>
+<IndexedIdentifier Name="R">
+<IntConstant Value="1"/>
+</IndexedIdentifier>
+<SimpleIdentifier Name="x"/>
+</QualifiedIdentifier>
+<QualifiedIdentifier>
+<IndexedIdentifier Name="R">
+<IntConstant Value="2"/>
+</IndexedIdentifier>
+<SimpleIdentifier Name="x"/>
+</QualifiedIdentifier>
+</BinaryExpression>
+<BinaryExpression Operator="!=">
+<QualifiedIdentifier>
+<IndexedIdentifier Name="R">
+<IntConstant Value="1"/>
+</IndexedIdentifier>
+<SimpleIdentifier Name="y"/>
+</QualifiedIdentifier>
+<QualifiedIdentifier>
+<IndexedIdentifier Name="R">
+<IntConstant Value="2"/>
+</IndexedIdentifier>
+<SimpleIdentifier Name="y"/>
+</QualifiedIdentifier>
+</BinaryExpression>
+</BinaryExpression>
+</Guards>
+<LabelGeometry Anchor="NW">
+<Point X="-88" Y="-35"/>
+</LabelGeometry>
+</GuardActionBlock>
+</Edge>
+</EdgeList>
+</Graph>
+</SimpleComponent>
+</ComponentList>
+</Module>
