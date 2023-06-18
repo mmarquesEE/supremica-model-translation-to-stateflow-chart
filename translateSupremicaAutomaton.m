@@ -77,10 +77,10 @@ end
 if ~inferData
     %% Add output variables
     for i = 1:numel(varname)
-        v(i) = Stateflow.Data(ch);
-        v(i).Name = varname(i);
-        v(i).Scope = "Output";
-        v(i).DataType = "double";
+        v = Stateflow.Data(ch);
+        v.Name = varname(i);
+        v.Scope = "Output";
+        v.DataType = "double";
     end
 
     %% Add events
