@@ -4,7 +4,7 @@ clc
 
 %%
 
-automaton = getSupremicaAutomata('completeModel.xml');
+automaton = getSupremicaAutomata('supremica3robots.xml');
 
 pathToModel = "charts";
 new_system(pathToModel);
